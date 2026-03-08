@@ -107,4 +107,67 @@ document.addEventListener('DOMContentLoaded', () => {
     observeElements.forEach(el => {
         observer.observe(el);
     });
+
+    // 5. Integração Dinâmica com o Blog (Blogger JSON API)
+    const blogContainer = document.getElementById('blog-posts-container');
+
+    async function fetchBloggerPosts() {
+        if (!blogContainer) return;
+
+        try {
+            // Usando a API de feed do Blogger (JSON format)
+            const response = await fetch('https://pesoti.blogspot.com/feeds/posts/default?alt=json&max-results=3');
+            const data = await response.json();
+            const posts = data.feed.entry || [];
+
+            if (posts.length === 0) {
+                blogContainer.innerHTML = '<p>Nenhuma postagem encontrada no momento.</p>';
+                return;
+            }
+
+            let html = '';
+            posts.forEach(post => {
+                const title = post.title.$t;
+                const link = post.link.find(l => l.rel === 'alternate').href;
+
+                // Tenta pegar a primeira imagem do post, senão usa um placeholder
+                let imageUrl = 'logo.png'; // Placeholder padrão
+                if (post.content && post.content.$t.includes('<img')) {
+                    const match = post.content.$t.match(/src="([^"]+)"/);
+                    if (match) imageUrl = match[1];
+                } else if (post.media$thumbnail) {
+                    // O Blogger fornece miniaturas pequenas por padrão, trocamos s72-c por s600 para melhor qualidade
+                    imageUrl = post.media$thumbnail.url.replace('/s72-c/', '/s600/');
+                }
+
+                // Resumo do conteúdo (limpa HTML)
+                const snippet = post.content ? post.content.$t.replace(/<[^>]*>/g, '').substring(0, 120) + '...' : '';
+
+                html += `
+                    <div class="blog-card fade-in">
+                        <div class="blog-card-image">
+                            <img src="${imageUrl}" alt="${title}" loading="lazy">
+                        </div>
+                        <div class="blog-card-content">
+                            <h3>${title}</h3>
+                            <p>${snippet}</p>
+                            <a href="${link}" target="_blank" class="read-more">Leia mais <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                `;
+            });
+
+            blogContainer.innerHTML = html;
+
+            // Reinicializa o observer para os novos elementos carregados
+            const newCards = blogContainer.querySelectorAll('.blog-card');
+            newCards.forEach(card => observer.observe(card));
+
+        } catch (error) {
+            console.error('Erro ao carregar o blog:', error);
+            blogContainer.innerHTML = '<p>Não foi possível carregar as postagens. <a href="https://pesoti.blogspot.com/" target="_blank">Clique aqui para acessar o blog diretamente.</a></p>';
+        }
+    }
+
+    fetchBloggerPosts();
 });
