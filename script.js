@@ -31,37 +31,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 2. Comportamento do Header ao rolar a página (Scroll)
+    // 2. Comportamento do Header ao rolar a página (Scroll) - Otimizado com requestAnimationFrame
     const navbar = document.getElementById('navbar');
+    let isScrolling = false;
+
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.style.padding = '10px 0';
-            navbar.style.boxShadow = '0 5px 20px rgba(0,0,0,0.1)';
-        } else {
-            navbar.style.padding = '15px 0';
-            navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)';
+        if (!isScrolling) {
+            window.requestAnimationFrame(() => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+                isScrolling = false;
+            });
+            isScrolling = true;
         }
     });
 
-    // 3. Sistema do FAQ (Accordion)
+    // 3. Sistema do FAQ (Accordion) - Otimizado para evitar reflow
     const accordionHeaders = document.querySelectorAll('.accordion-header');
-    
+
     accordionHeaders.forEach(header => {
         header.addEventListener('click', () => {
             const content = header.nextElementSibling;
-            
+
             // Fecha os outros
             accordionHeaders.forEach(otherHeader => {
-                if (otherHeader !== header) {
+                const otherContent = otherHeader.nextElementSibling;
+                if (otherHeader !== header && otherHeader.classList.contains('active')) {
                     otherHeader.classList.remove('active');
-                    otherHeader.nextElementSibling.style.maxHeight = null;
+                    otherContent.style.maxHeight = null;
                 }
             });
 
             // Abre/Fecha o atual
             header.classList.toggle('active');
             if (header.classList.contains('active')) {
-                content.style.maxHeight = content.scrollHeight + 'px';
+                // Remove o maxHeight primeiro para garantir que a leitura de scrollHeight seja precisa
+                content.style.maxHeight = 'none';
+                const height = content.scrollHeight;
+                // Volta para zero antes de aplicar a altura real para permitir transição (se necessário) ou remove o tempo curto
+                content.style.maxHeight = '0px';
+
+                // Usa requestAnimationFrame para aplicar a altura DEPOIS que o DOM processou a mudança acima
+                window.requestAnimationFrame(() => {
+                    content.style.maxHeight = height + 'px';
+                });
             } else {
                 content.style.maxHeight = null;
             }
@@ -70,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. Observador de Interseção para Animações ao Rolar (Scroll Reveal)
     const observeElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right');
-    
+
     // Configurações do observador: dispara quando 15% do elemento estiver visível
     const observerOptions = {
         threshold: 0.15,
