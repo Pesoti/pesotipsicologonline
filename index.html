@@ -24,17 +24,6 @@
     <meta property="og:url" content="https://pesotipsicologonline.com.br">
     <meta property="og:type" content="website">
 
-    <!-- Google Fonts (Otimizado) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
-        onload="this.onload=null;this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap">
-    </noscript>
-
     <!-- FontAwesome para ícones (Otimizado) -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -43,20 +32,22 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </noscript>
 
-    <!-- Estilos Críticos Inlined -->
+    <!-- Tipografia e Estilos Críticos Inlined -->
     <style>
         :root {
-            --primary-color: #3C6E71;
-            --primary-light: #5B8E91;
-            --primary-dark: #284B4D;
-            --accent-color: #D9D9D9;
-            --bg-color: #FAFAFA;
-            --bg-light: #F0F4F4;
-            --text-main: #333333;
-            --text-muted: #666666;
+            --primary-color: #3366FF;
+            /* Azul Pesoti Oficial */
+            --primary-light: #5C8AFF;
+            --primary-dark: #1A3BB2;
+            --accent-color: #F5F7FF;
+            --bg-color: #FFFFFF;
+            /* Branco puro conforme regras da marca */
+            --bg-light: #F9FAFB;
+            --text-main: #1F2937;
+            --text-muted: #4B5563;
             --white: #FFFFFF;
-            --font-heading: 'Outfit', sans-serif;
-            --font-body: 'Inter', sans-serif;
+            --font-heading: 'Helvetica NeueLT Std', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --font-body: 'Helvetica NeueLT Std', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             --transition-fast: 0.3s ease;
             --border-radius: 12px;
             --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
@@ -86,7 +77,8 @@
         h4,
         .logo {
             font-family: var(--font-heading);
-            color: var(--primary-dark);
+            color: var(--primary-color);
+            /* Títulos no azul oficial */
         }
 
         a {
@@ -167,7 +159,7 @@
         .btn-primary {
             background-color: var(--primary-color);
             color: var(--white);
-            box-shadow: 0 4px 15px rgba(60, 110, 113, 0.3);
+            box-shadow: 0 4px 15px rgba(51, 102, 255, 0.3);
         }
 
         .mobile-menu-btn {
@@ -206,7 +198,7 @@
 
         .badge {
             display: inline-block;
-            background-color: rgba(60, 110, 113, 0.1);
+            background-color: rgba(51, 102, 255, 0.1);
             color: var(--primary-color);
             padding: 8px 16px;
             border-radius: 20px;
