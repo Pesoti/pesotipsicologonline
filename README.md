@@ -1,6 +1,6 @@
-# Psicoterapia Online - Cesar Pesoti
+# Terapia Online - Cesar Pesoti
 
-Este é o repositório do site oficial para informações e agendamento de sessões de Psicoterapia Online, desenvolvido para o Psicólogo Cesar Pesoti (CRP 06/94955).
+Este é o repositório do site oficial para informações e agendamento de sessões de Terapia Online, desenvolvido para o Psicólogo Cesar Pesoti (CRP 06/94955).
 
 ## Sobre o Site
 
