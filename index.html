@@ -51,6 +51,7 @@
                 <a href="#especialidades">Especialidades</a>
                 <a href="#como-funciona">Como Funciona</a>
                 <a href="https://pesoti.blogspot.com/" target="_blank" rel="noopener noreferrer">Blog</a>
+                <a href="#respiracao">Respiração</a>
                 <a href="#faq">Dúvidas</a>
             </nav>
 
@@ -216,6 +217,145 @@
                         <h3>Regulação Emocional</h3>
                         <p>Identifique e responda de forma saudável às emoções, sem ser dominado pela impulsividade ou angústia.</p>
                     </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Breathing Module Section -->
+        <section id="respiracao" class="ca-module section">
+            <div class="container ca-container">
+                <div class="ca-header text-center fade-in">
+                    <span class="ca-badge">Controle de Ansiedade</span>
+                    <h2 class="ca-title">Prática de Respiração Guiada</h2>
+                    <p class="ca-description">
+                        Regule o ritmo da respiração com uma prática guiada de foco e desaceleração fisiológica, 
+                        útil para momentos de ansiedade, tensão e sobrecarga.
+                    </p>
+                </div>
+                
+                <div class="ca-main-grid">
+                    <!-- Central Visualizer -->
+                    <div class="ca-visualizer-card fade-in">
+                        <div class="ca-orb-container">
+                            <div class="ca-orb" id="ca-orb"></div>
+                            <div class="ca-phase-display">
+                                <span id="ca-phase-label">Pronto</span>
+                                <span id="ca-phase-timer">0.0</span>
+                            </div>
+                        </div>
+                        <div class="ca-controls-main">
+                            <button id="ca-btn-primary" class="ca-btn ca-btn-primary ca-btn-xl">
+                                <i class="fa-solid fa-play" aria-hidden="true"></i> <span>Iniciar Sessão</span>
+                            </button>
+                            <div class="ca-secondary-btns">
+                                <button id="ca-btn-reset" class="ca-btn ca-btn-outline" title="Reiniciar">
+                                    <i class="fa-solid fa-rotate-left" aria-hidden="true"></i>
+                                </button>
+                                <button id="ca-btn-immersive" class="ca-btn ca-btn-outline" title="Modo Imersivo">
+                                    <i class="fa-solid fa-expand" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings & Stats -->
+                    <div class="ca-settings-card fade-in delay-1">
+                        <div class="ca-tabs">
+                            <button class="ca-tab-btn active" data-tab="presets">Presets</button>
+                            <button class="ca-tab-btn" data-tab="config">Ajustes</button>
+                            <button class="ca-tab-btn" data-tab="stats">Progresso</button>
+                        </div>
+
+                        <div class="ca-tab-content active" id="ca-tab-presets">
+                            <div class="ca-preset-list" id="ca-preset-list">
+                                <!-- Presets injected by JS -->
+                            </div>
+                            <button id="ca-btn-manage-presets" class="ca-btn ca-btn-text">
+                                <i class="fa-solid fa-gear" aria-hidden="true"></i> Gerenciar Presets
+                            </button>
+                        </div>
+
+                        <div class="ca-tab-content" id="ca-tab-config">
+                            <div class="ca-form-group">
+                                <label>Fases (segundos):</label>
+                                <div class="ca-phase-inputs">
+                                    <div class="ca-input-item">
+                                        <span>Inspirar</span>
+                                        <input type="number" id="ca-in-insp" value="4" min="0" max="30" step="0.5">
+                                    </div>
+                                    <div class="ca-input-item">
+                                        <span>Reter</span>
+                                        <input type="number" id="ca-in-hold1" value="0" min="0" max="30" step="0.5">
+                                    </div>
+                                    <div class="ca-input-item">
+                                        <span>Expirar</span>
+                                        <input type="number" id="ca-in-exp" value="4" min="0" max="30" step="0.5">
+                                    </div>
+                                    <div class="ca-input-item">
+                                        <span>Pausar</span>
+                                        <input type="number" id="ca-in-hold2" value="0" min="0" max="30" step="0.5">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ca-form-group">
+                                <label>Duração da Sessão:</label>
+                                <select id="ca-in-duration" class="ca-select">
+                                    <option value="60">1 minuto</option>
+                                    <option value="120" selected>2 minutos</option>
+                                    <option value="180">3 minutos</option>
+                                    <option value="300">5 minutos</option>
+                                    <option value="600">10 minutos</option>
+                                    <option value="custom">Personalizado...</option>
+                                </select>
+                                <input type="number" id="ca-in-custom-duration" class="ca-input" style="display:none; margin-top: 10px;" min="1" max="60" placeholder="Minutos">
+                            </div>
+                            <div class="ca-toggles">
+                                <label class="ca-toggle">
+                                    <input type="checkbox" id="ca-tg-gradual">
+                                    <span class="ca-toggle-label">Início Gradual</span>
+                                </label>
+                                <label class="ca-toggle">
+                                    <input type="checkbox" id="ca-tg-sound" checked>
+                                    <span class="ca-toggle-label">Som</span>
+                                </label>
+                                <label class="ca-toggle">
+                                    <input type="checkbox" id="ca-tg-vibrate">
+                                    <span class="ca-toggle-label">Vibração</span>
+                                </label>
+                                <label class="ca-toggle">
+                                    <input type="checkbox" id="ca-tg-wakelock">
+                                    <span class="ca-toggle-label">Manter Tela Ativa</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="ca-tab-content" id="ca-tab-stats">
+                            <div class="ca-stats-grid">
+                                <div class="ca-stat-item">
+                                    <span class="ca-stat-label">Ciclo Atual</span>
+                                    <span class="ca-stat-value" id="ca-stat-cycles">0 / 0</span>
+                                </div>
+                                <div class="ca-stat-item">
+                                    <span class="ca-stat-label">Tempo Restante</span>
+                                    <span class="ca-stat-value" id="ca-stat-time">00:00</span>
+                                </div>
+                                <div class="ca-stat-item">
+                                    <span class="ca-stat-label">BPM Estimado</span>
+                                    <span class="ca-stat-value" id="ca-stat-bpm">0</span>
+                                </div>
+                                <div class="ca-stat-item" style="flex-direction: column; align-items: flex-start; gap: 8px; border: none;">
+                                    <span class="ca-stat-label">Progresso da Sessão</span>
+                                    <div class="ca-progress-bar">
+                                        <div class="ca-progress-fill" id="ca-progress-fill"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ca-disclaimer text-center fade-in">
+                    <p>Se houver tontura, desconforto ou piora dos sintomas, interrompa a prática. Este recurso não substitui acompanhamento profissional.</p>
                 </div>
             </div>
         </section>
@@ -433,6 +573,909 @@
 
     <!-- Arquivo de Script -->
     <script src="script.js" defer></script>
+    <!-- Immersive Mode Overlay -->
+    <div id="ca-overlay" class="ca-overlay" role="dialog" aria-modal="true" aria-labelledby="ca-overlay-title">
+        <div class="ca-overlay-background"></div>
+        <div class="ca-overlay-content">
+            <button id="ca-btn-close-overlay" class="ca-overlay-close" aria-label="Fechar modo imersivo">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </button>
+            <div class="ca-overlay-main">
+                <h2 id="ca-overlay-title" class="ca-sr-only">Respiração Guiada Imersiva</h2>
+                <div class="ca-orb-container ca-orb-immersive">
+                    <div class="ca-orb" id="ca-orb-fs"></div>
+                    <div class="ca-phase-display">
+                        <span id="ca-phase-label-fs">Pronto</span>
+                        <span id="ca-phase-timer-fs">0.0</span>
+                    </div>
+                </div>
+                <div class="ca-overlay-info">
+                    <span id="ca-overlay-stats">Tempo: 00:00 | Ciclo: 0/0</span>
+                </div>
+                <div class="ca-overlay-controls" style="display: flex; justify-content: center; width: 100%;">
+                    <button id="ca-btn-primary-fs" class="ca-btn ca-btn-primary ca-btn-xl">
+                        <i class="fa-solid fa-play" aria-hidden="true"></i> <span>Iniciar</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="ca-toast-container" class="ca-toast-container"></div>
+
+    <style id="ca-styles">
+    :root {
+        --ca-primary: #3366FF;
+        --ca-primary-light: #5C8AFF;
+        --ca-primary-dark: #1A3BB2;
+        --ca-surface: #ffffff;
+        --ca-bg-light: #F5F7FF;
+        --ca-text: #1F2937;
+        --ca-text-muted: #6B7280;
+        --ca-border: #E5E7EB;
+        --ca-radius: 16px;
+        --ca-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    .ca-module {
+        background-color: var(--ca-bg-light);
+        overflow: hidden;
+    }
+
+    .ca-container {
+        max-width: 1000px;
+    }
+
+    .ca-header {
+        margin-bottom: 3rem;
+    }
+
+    .ca-badge {
+        display: inline-block;
+        background: rgba(51, 102, 255, 0.1);
+        color: var(--ca-primary);
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .ca-title {
+        font-size: 2.25rem;
+        color: var(--ca-primary-dark);
+        margin-bottom: 1rem;
+    }
+
+    .ca-description {
+        max-width: 600px;
+        margin: 0 auto;
+        color: var(--ca-text-muted);
+    }
+
+    .ca-main-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 2rem;
+        align-items: start;
+    }
+
+    .ca-visualizer-card, .ca-settings-card {
+        background: var(--ca-surface);
+        border-radius: var(--ca-radius);
+        padding: 2.5rem;
+        box-shadow: var(--ca-shadow);
+        height: 100%;
+    }
+
+    .ca-orb-container {
+        position: relative;
+        width: 250px;
+        height: 250px;
+        margin: 0 auto 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ca-orb {
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(circle, var(--ca-primary-light) 0%, var(--ca-primary) 100%);
+        border-radius: 50%;
+        box-shadow: 0 0 50px rgba(51, 102, 255, 0.3);
+        transition: transform 0.1s linear;
+        will-change: transform;
+    }
+
+    .ca-phase-display {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: white;
+        pointer-events: none;
+        z-index: 2;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    #ca-phase-label, #ca-phase-label-fs {
+        display: block;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    #ca-phase-timer, #ca-phase-timer-fs {
+        font-size: 2.5rem;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .ca-controls-main {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        align-items: center;
+    }
+
+    .ca-secondary-btns {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .ca-tabs {
+        display: flex;
+        gap: 0.25rem;
+        margin-bottom: 2rem;
+        background: var(--ca-bg-light);
+        padding: 4px;
+        border-radius: 12px;
+    }
+
+    .ca-tab-btn {
+        flex: 1;
+        background: none;
+        border: none;
+        padding: 0.75rem 0.5rem;
+        color: var(--ca-text-muted);
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: all 0.2s;
+    }
+
+    .ca-tab-btn.active {
+        color: var(--ca-primary);
+        background: var(--ca-surface);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .ca-tab-content {
+        display: none;
+    }
+
+    .ca-tab-content.active {
+        display: block;
+    }
+
+    .ca-preset-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .ca-preset-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.25rem;
+        border: 2px solid transparent;
+        background: var(--ca-bg-light);
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .ca-preset-item:hover {
+        background: #ebf0ff;
+    }
+
+    .ca-preset-item.active {
+        border-color: var(--ca-primary);
+        background: rgba(51, 102, 255, 0.05);
+    }
+
+    .ca-form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .ca-form-group label {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--ca-primary-dark);
+    }
+
+    .ca-phase-inputs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+
+    .ca-input-item span {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--ca-text-muted);
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+    }
+
+    .ca-input-item input, .ca-select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--ca-border);
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: border-color 0.2s;
+    }
+
+    .ca-input-item input:focus, .ca-select:focus {
+        outline: none;
+        border-color: var(--ca-primary);
+    }
+
+    .ca-toggles {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--ca-border);
+    }
+
+    .ca-toggle {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.95rem;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    .ca-toggle input {
+        width: 1.2rem;
+        height: 1.2rem;
+        cursor: pointer;
+    }
+
+    .ca-stats-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .ca-stat-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--ca-bg-light);
+        padding-bottom: 0.75rem;
+    }
+
+    .ca-stat-label {
+        font-size: 0.95rem;
+        color: var(--ca-text-muted);
+    }
+
+    .ca-stat-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--ca-primary-dark);
+        font-variant-numeric: tabular-nums;
+    }
+
+    .ca-progress-bar {
+        width: 100%;
+        height: 12px;
+        background: var(--ca-bg-light);
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .ca-progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--ca-primary) 0%, var(--ca-primary-light) 100%);
+        width: 0%;
+        transition: width 0.3s linear;
+    }
+
+    .ca-btn {
+        border: none;
+        border-radius: 12px;
+        padding: 0.875rem 1.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+    }
+
+    .ca-btn-primary {
+        background: var(--ca-primary);
+        color: white;
+    }
+
+    .ca-btn-primary:hover {
+        background: var(--ca-primary-dark);
+        transform: translateY(-2px);
+    }
+
+    .ca-btn-outline {
+        background: white;
+        border: 2px solid var(--ca-border);
+        color: var(--ca-text);
+    }
+
+    .ca-btn-outline:hover {
+        border-color: var(--ca-primary);
+        color: var(--ca-primary);
+    }
+
+    .ca-btn-xl {
+        padding: 1.25rem 3rem;
+        font-size: 1.125rem;
+        width: 100%;
+    }
+
+    .ca-btn-text {
+        background: none;
+        color: var(--ca-primary);
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .ca-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10000;
+        display: none;
+    }
+
+    .ca-overlay.active {
+        display: flex;
+        animation: ca-fade-in 0.4s forwards;
+    }
+
+    .ca-overlay-background {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: white;
+    }
+
+    .ca-overlay-content {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+
+    .ca-overlay-close {
+        position: absolute;
+        top: 2rem;
+        right: 2rem;
+        background: none;
+        border: none;
+        font-size: 2.5rem;
+        cursor: pointer;
+        color: var(--ca-text-muted);
+        transition: color 0.2s;
+    }
+
+    .ca-overlay-close:hover {
+        color: var(--ca-primary);
+    }
+
+    .ca-orb-immersive {
+        width: 350px;
+        height: 350px;
+    }
+
+    .ca-orb-immersive .ca-orb {
+        width: 120px;
+        height: 120px;
+    }
+
+    .ca-overlay-info {
+        margin: 3rem 0;
+        font-size: 1.25rem;
+        color: var(--ca-text-muted);
+        font-weight: 500;
+    }
+
+    .ca-toast-container {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 11000;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .ca-toast {
+        background: #1F2937;
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+        animation: ca-toast-in 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes ca-fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes ca-toast-in {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .ca-sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+    }
+
+    .ca-disclaimer {
+        margin-top: 4rem;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: var(--ca-text-muted);
+        border-top: 1px solid var(--ca-border);
+        padding-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .ca-main-grid { grid-template-columns: 1fr; }
+        .ca-orb-container { width: 200px; height: 200px; }
+        .ca-title { font-size: 1.75rem; }
+        .ca-overlay-close { top: 1rem; right: 1rem; font-size: 2rem; }
+        .ca-orb-immersive { width: 280px; height: 280px; }
+    }
+    </style>
+
+    <script id="ca-scripts">
+    (function() {
+        'use strict';
+
+        const CAApp = {
+            state: 'idle',
+            presets: [
+                { id: 'ca-p1', name: 'Equilibrada', in: 4, h1: 0, ex: 4, h2: 0 },
+                { id: 'ca-p2', name: 'Box Breathing', in: 4, h1: 4, ex: 4, h2: 4 },
+                { id: 'ca-p3', name: 'Relaxamento', in: 4, h1: 2, ex: 6, h2: 2 },
+                { id: 'ca-p4', name: 'Sono (4-7-8)', in: 4, h1: 7, ex: 8, h2: 0 },
+                { id: 'ca-p5', name: 'Coerência', in: 5, h1: 0, ex: 5, h2: 0 }
+            ],
+            db: null,
+            activeSess: null,
+            wakeLock: null,
+            audioCtx: null,
+            
+            init() {
+                this.setupUI();
+                this.setupPersistence();
+                this.setupEventListeners();
+                this.syncStats();
+            },
+
+            setupUI() {
+                this.els = {
+                    orb: document.getElementById('ca-orb'),
+                    orbFs: document.getElementById('ca-orb-fs'),
+                    label: document.getElementById('ca-phase-label'),
+                    labelFs: document.getElementById('ca-phase-label-fs'),
+                    timer: document.getElementById('ca-phase-timer'),
+                    timerFs: document.getElementById('ca-phase-timer-fs'),
+                    btnMain: document.getElementById('ca-btn-primary'),
+                    btnMainFs: document.getElementById('ca-btn-primary-fs'),
+                    btnReset: document.getElementById('ca-btn-reset'),
+                    btnImmersive: document.getElementById('ca-btn-immersive'),
+                    btnCloseOverlay: document.getElementById('ca-btn-close-overlay'),
+                    overlay: document.getElementById('ca-overlay'),
+                    presetList: document.getElementById('ca-preset-list'),
+                    tabs: document.querySelectorAll('.ca-tab-btn'),
+                    tabContents: document.querySelectorAll('.ca-tab-content'),
+                    statCycles: document.getElementById('ca-stat-cycles'),
+                    statTime: document.getElementById('ca-stat-time'),
+                    statBpm: document.getElementById('ca-stat-bpm'),
+                    progFill: document.getElementById('ca-progress-fill'),
+                    overlayStats: document.getElementById('ca-overlay-stats'),
+                    toastCont: document.getElementById('ca-toast-container'),
+                    // Inputs
+                    inInsp: document.getElementById('ca-in-insp'),
+                    inHold1: document.getElementById('ca-in-hold1'),
+                    inExp: document.getElementById('ca-in-exp'),
+                    inHold2: document.getElementById('ca-in-hold2'),
+                    inDuration: document.getElementById('ca-in-duration'),
+                    inCustomDuration: document.getElementById('ca-in-custom-duration'),
+                    tgGradual: document.getElementById('ca-tg-gradual'),
+                    tgSound: document.getElementById('ca-tg-sound'),
+                    tgVibrate: document.getElementById('ca-tg-vibrate'),
+                    tgWakeLock: document.getElementById('ca-tg-wakelock')
+                };
+                this.renderPresets();
+            },
+
+            setupEventListeners() {
+                this.els.btnMain.onclick = () => this.toggleSess();
+                this.els.btnMainFs.onclick = () => this.toggleSess();
+                this.els.btnReset.onclick = () => this.resetSess();
+                this.els.btnImmersive.onclick = () => this.openOverlay();
+                this.els.btnCloseOverlay.onclick = () => this.closeOverlay();
+                
+                this.els.tabs.forEach(btn => {
+                    btn.onclick = () => {
+                        const target = btn.dataset.tab;
+                        this.els.tabs.forEach(b => b.classList.toggle('active', b === btn));
+                        this.els.tabContents.forEach(c => c.classList.toggle('active', c.id === `ca-tab-${target}`));
+                    };
+                });
+
+                this.els.inDuration.onchange = (e) => {
+                    this.els.inCustomDuration.style.display = e.target.value === 'custom' ? 'block' : 'none';
+                    if (this.state === 'idle') this.syncStats();
+                };
+
+                const inputSync = () => { if (this.state === 'idle') this.syncStats(); };
+                [this.els.inInsp, this.els.inHold1, this.els.inExp, this.els.inHold2, this.els.inCustomDuration].forEach(el => el.oninput = inputSync);
+
+                document.addEventListener("visibilitychange", () => {
+                    if (document.hidden && this.state === 'running') {
+                        this.pauseSess();
+                        this.showToast("Sessão pausada ao sair da aba.");
+                    }
+                });
+
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && this.els.overlay.classList.contains('active')) this.closeOverlay();
+                });
+            },
+
+            toggleSess() {
+                if (this.state === 'idle' || this.state === 'ended') this.startSess();
+                else if (this.state === 'running') this.pauseSess();
+                else if (this.state === 'paused') this.resumeSess();
+            },
+
+            startSess() {
+                const config = this.getSessConfig();
+                if (config.totalPhaseTime <= 0) {
+                    this.showToast("Defina pelo menos uma fase maior que zero.");
+                    return;
+                }
+                
+                this.state = 'running';
+                this.activeSess = {
+                    config,
+                    elapsed: 0,
+                    cycle: 0,
+                    phase: 'inspire',
+                    phaseElapsed: 0,
+                    lastTick: performance.now(),
+                    currentPhaseLimit: config.insp || config.hold1 || config.exp || config.hold2
+                };
+
+                // Find first non-zero phase
+                if (config.insp === 0) this.nextPhase(true);
+
+                this.updateUI();
+                this.requestWakeLock();
+                this.playTone('start');
+                this.loop();
+            },
+
+            pauseSess() {
+                this.state = 'paused';
+                this.releaseWakeLock();
+                this.updateUI();
+            },
+
+            resumeSess() {
+                this.state = 'running';
+                this.activeSess.lastTick = performance.now();
+                this.requestWakeLock();
+                this.updateUI();
+                this.loop();
+            },
+
+            resetSess() {
+                this.state = 'idle';
+                this.activeSess = null;
+                this.releaseWakeLock();
+                this.clearVisuals();
+                this.updateUI();
+                this.syncStats();
+            },
+
+            endSess() {
+                this.state = 'ended';
+                this.activeSess.elapsed = this.activeSess.config.duration;
+                this.releaseWakeLock();
+                this.playTone('end');
+                this.showToast("Sessão concluída.");
+                this.updateUI();
+            },
+
+            getSessConfig() {
+                let duration = parseInt(this.els.inDuration.value);
+                if (this.els.inDuration.value === 'custom') {
+                    duration = (parseInt(this.els.inCustomDuration.value) || 1) * 60;
+                }
+                
+                return {
+                    insp: Math.max(0, parseFloat(this.els.inInsp.value) || 0),
+                    hold1: Math.max(0, parseFloat(this.els.inHold1.value) || 0),
+                    exp: Math.max(0, parseFloat(this.els.inExp.value) || 0),
+                    hold2: Math.max(0, parseFloat(this.els.inHold2.value) || 0),
+                    duration: Math.min(3600, duration),
+                    gradual: this.els.tgGradual.checked,
+                    sound: this.els.tgSound.checked,
+                    vibrate: this.els.tgVibrate.checked,
+                    get totalPhaseTime() { return this.insp + this.hold1 + this.exp + this.hold2; }
+                };
+            },
+
+            loop() {
+                if (this.state !== 'running') return;
+                const now = performance.now();
+                const delta = (now - this.activeSess.lastTick) / 1000;
+                this.activeSess.lastTick = now;
+                
+                this.tick(delta);
+                this.render();
+                requestAnimationFrame(() => this.loop());
+            },
+
+            tick(delta) {
+                const s = this.activeSess;
+                if (s.elapsed >= s.config.duration) {
+                    this.endSess();
+                    return;
+                }
+
+                s.elapsed += delta;
+                s.phaseElapsed += delta;
+                
+                if (s.phaseElapsed >= s.currentPhaseLimit) {
+                    s.phaseElapsed = 0;
+                    this.nextPhase();
+                }
+            },
+
+            nextPhase(silent = false) {
+                const s = this.activeSess;
+                const c = s.config;
+                const cycleOrder = ['inspire', 'hold1', 'expire', 'hold2'];
+                let idx = cycleOrder.indexOf(s.phase);
+                
+                let found = false;
+                let attempts = 0;
+                while (!found && attempts < 4) {
+                    idx = (idx + 1) % 4;
+                    if (idx === 0) s.cycle++;
+                    const nextP = cycleOrder[idx];
+                    const limit = this.getPhaseLimit(nextP, c);
+                    if (limit > 0) {
+                        s.phase = nextP;
+                        s.currentPhaseLimit = limit;
+                        found = true;
+                    }
+                    attempts++;
+                }
+
+                if (!silent) {
+                    this.playTone('tick');
+                    if (c.vibrate && navigator.vibrate) navigator.vibrate(50);
+                }
+            },
+
+            getPhaseLimit(p, c) {
+                if (p === 'inspire') return c.insp;
+                if (p === 'hold1') return c.hold1;
+                if (p === 'expire') return c.exp;
+                if (p === 'hold2') return c.hold2;
+                return 0;
+            },
+
+            render() {
+                const s = this.activeSess;
+                const limit = s.currentPhaseLimit;
+                const remaining = Math.max(0, limit - s.phaseElapsed).toFixed(1);
+                
+                this.els.timer.textContent = remaining;
+                this.els.timerFs.textContent = remaining;
+                
+                const labels = { inspire: 'Inspirar', hold1: 'Reter', expire: 'Expirar', hold2: 'Pausar' };
+                this.els.label.textContent = labels[s.phase];
+                this.els.labelFs.textContent = labels[s.phase];
+
+                let scale = 1;
+                const progress = Math.min(1, s.phaseElapsed / limit);
+                if (s.phase === 'inspire') scale = 1 + progress * 1.3;
+                else if (s.phase === 'hold1') scale = 2.3;
+                else if (s.phase === 'expire') scale = 2.3 - progress * 1.3;
+                else scale = 1;
+
+                const transform = `scale(${scale})`;
+                this.els.orb.style.transform = transform;
+                this.els.orbFs.style.transform = transform;
+
+                this.syncStats();
+            },
+
+            syncStats() {
+                const config = this.activeSess ? this.activeSess.config : this.getSessConfig();
+                const elapsed = this.activeSess ? this.activeSess.elapsed : 0;
+                const cycleCount = this.activeSess ? this.activeSess.cycle : 0;
+
+                const remainingSec = Math.ceil(config.duration - elapsed);
+                const m = Math.floor(remainingSec / 60);
+                const sec = remainingSec % 60;
+                const timeStr = `${m.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+                
+                this.els.statTime.textContent = timeStr;
+                const cycleTime = config.totalPhaseTime;
+                const estCycles = cycleTime > 0 ? Math.floor(config.duration / cycleTime) : 0;
+                this.els.statCycles.textContent = `${cycleCount} / ${estCycles}`;
+                
+                this.els.statBpm.textContent = cycleTime > 0 ? (60 / cycleTime).toFixed(1) : '0';
+                this.els.progFill.style.width = `${(elapsed / config.duration) * 100}%`;
+                this.els.overlayStats.textContent = `Tempo: ${timeStr} | Ciclo: ${cycleCount}/${estCycles}`;
+            },
+
+            updateUI() {
+                const icons = { idle: 'play', running: 'pause', paused: 'play', ended: 'rotate-left' };
+                const texts = { idle: 'Iniciar Sessão', running: 'Pausar', paused: 'Continuar', ended: 'Nova Sessão' };
+                
+                const html = `<i class="fa-solid fa-${icons[this.state]}" aria-hidden="true"></i> <span>${texts[this.state]}</span>`;
+                this.els.btnMain.innerHTML = html;
+                this.els.btnMainFs.innerHTML = html;
+                
+                const isRunning = this.state === 'running' || this.state === 'paused';
+                [this.els.inInsp, this.els.inHold1, this.els.inExp, this.els.inHold2, this.els.inDuration, this.els.inCustomDuration].forEach(el => el.disabled = isRunning);
+            },
+
+            clearVisuals() {
+                this.els.orb.style.transform = 'scale(1)';
+                this.els.orbFs.style.transform = 'scale(1)';
+                this.els.timer.textContent = '0.0';
+                this.els.timerFs.textContent = '0.0';
+                this.els.label.textContent = 'Pronto';
+                this.els.labelFs.textContent = 'Pronto';
+            },
+
+            renderPresets() {
+                this.els.presetList.innerHTML = '';
+                this.presets.forEach(p => {
+                    const item = document.createElement('div');
+                    item.className = 'ca-preset-item';
+                    item.onclick = () => {
+                        if (this.state !== 'idle' && this.state !== 'ended') return;
+                        this.els.inInsp.value = p.in;
+                        this.els.inHold1.value = p.h1;
+                        this.els.inExp.value = p.ex;
+                        this.els.inHold2.value = p.h2;
+                        this.syncStats();
+                        this.els.presetList.querySelectorAll('.ca-preset-item').forEach(i => i.classList.remove('active'));
+                        item.classList.add('active');
+                        this.showToast(`Preset ${p.name} aplicado.`);
+                    };
+                    
+                    const info = document.createElement('div');
+                    info.innerHTML = `<strong>${p.name}</strong><div style="font-size: 0.8rem; color: var(--ca-text-muted)">${p.in}-${p.h1}-${p.ex}-${p.h2}s</div>`;
+                    item.appendChild(info);
+                    this.els.presetList.appendChild(item);
+                });
+            },
+
+            showToast(msg) {
+                const toast = document.createElement('div');
+                toast.className = 'ca-toast';
+                toast.textContent = msg;
+                this.els.toastCont.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            },
+
+            playTone(type) {
+                if (!this.els.tgSound.checked) return;
+                try {
+                    if (!this.audioCtx) this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    const osc = this.audioCtx.createOscillator();
+                    const g = this.audioCtx.createGain();
+                    osc.connect(g); g.connect(this.audioCtx.destination);
+                    
+                    osc.frequency.setValueAtTime(type === 'start' ? 880 : (type === 'end' ? 440 : 660), this.audioCtx.currentTime);
+                    g.gain.setValueAtTime(0.1, this.audioCtx.currentTime);
+                    g.gain.exponentialRampToValueAtTime(0.0001, this.audioCtx.currentTime + 0.5);
+                    osc.start(); osc.stop(this.audioCtx.currentTime + 0.5);
+                } catch(e) {}
+            },
+
+            async requestWakeLock() {
+                if (this.els.tgWakeLock.checked && 'wakeLock' in navigator) {
+                    try { this.wakeLock = await navigator.wakeLock.request('screen'); } catch(e) {}
+                }
+            },
+
+            releaseWakeLock() {
+                if (this.wakeLock) { this.wakeLock.release().then(() => this.wakeLock = null); }
+            },
+
+            openOverlay() {
+                const sw = window.innerWidth - document.documentElement.clientWidth;
+                document.body.style.overflow = 'hidden';
+                document.body.style.paddingRight = `${sw}px`;
+                this.els.overlay.classList.add('active');
+            },
+
+            closeOverlay() {
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+                this.els.overlay.classList.remove('active');
+            },
+
+            setupPersistence() {
+                const saver = () => localStorage.setItem('ca-prefs', JSON.stringify({
+                    s: this.els.tgSound.checked, v: this.els.tgVibrate.checked, w: this.els.tgWakeLock.checked
+                }));
+                const saved = JSON.parse(localStorage.getItem('ca-prefs') || '{}');
+                if (saved.s !== undefined) this.els.tgSound.checked = saved.s;
+                if (saved.v !== undefined) this.els.tgVibrate.checked = saved.v;
+                if (saved.w !== undefined) this.els.tgWakeLock.checked = saved.w;
+                [this.els.tgSound, this.els.tgVibrate, this.els.tgWakeLock].forEach(el => el.onchange = saver);
+            }
+        };
+
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => CAApp.init());
+        else CAApp.init();
+    })();
+    </script>
 </body>
 
 </html>
