@@ -8,15 +8,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (mobileBtn && navLinks) {
         mobileBtn.addEventListener('click', () => {
+            const isExpanded = mobileBtn.getAttribute('aria-expanded') === 'true';
+            
             navLinks.classList.toggle('active');
+            mobileBtn.setAttribute('aria-expanded', !isExpanded);
+            
             // Troca ícone do menu
             const icon = mobileBtn.querySelector('i');
-            if (navLinks.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-xmark');
-            } else {
-                icon.classList.remove('fa-xmark');
-                icon.classList.add('fa-bars');
+            if (icon) {
+                if (navLinks.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-xmark');
+                } else {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                }
             }
         });
 
@@ -24,9 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
         navLinksItems.forEach(item => {
             item.addEventListener('click', () => {
                 navLinks.classList.remove('active');
+                mobileBtn.setAttribute('aria-expanded', 'false');
+                
                 const icon = mobileBtn.querySelector('i');
-                icon.classList.remove('fa-xmark');
-                icon.classList.add('fa-bars');
+                if (icon) {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                }
             });
         });
     }
@@ -35,142 +45,158 @@ document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('navbar');
     let isScrolling = false;
 
-    window.addEventListener('scroll', () => {
-        if (!isScrolling) {
-            window.requestAnimationFrame(() => {
-                if (window.scrollY > 50) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
-                isScrolling = false;
-            });
-            isScrolling = true;
-        }
-    });
-
-    // 3. Sistema do FAQ (Accordion) - Otimizado para evitar reflow
-    const accordionHeaders = document.querySelectorAll('.accordion-header');
-
-    accordionHeaders.forEach(header => {
-        header.addEventListener('click', () => {
-            const content = header.nextElementSibling;
-
-            // Fecha os outros
-            accordionHeaders.forEach(otherHeader => {
-                const otherContent = otherHeader.nextElementSibling;
-                if (otherHeader !== header && otherHeader.classList.contains('active')) {
-                    otherHeader.classList.remove('active');
-                    otherContent.style.maxHeight = null;
-                }
-            });
-
-            // Abre/Fecha o atual
-            header.classList.toggle('active');
-            if (header.classList.contains('active')) {
-                // Remove o maxHeight primeiro para garantir que a leitura de scrollHeight seja precisa
-                content.style.maxHeight = 'none';
-                const height = content.scrollHeight;
-                // Volta para zero antes de aplicar a altura real para permitir transição (se necessário) ou remove o tempo curto
-                content.style.maxHeight = '0px';
-
-                // Usa requestAnimationFrame para aplicar a altura DEPOIS que o DOM processou a mudança acima
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            if (!isScrolling) {
                 window.requestAnimationFrame(() => {
-                    content.style.maxHeight = height + 'px';
+                    if (window.scrollY > 50) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+                    isScrolling = false;
                 });
-            } else {
-                content.style.maxHeight = null;
+                isScrolling = true;
             }
-        });
+        }, { passive: true });
+    }
+
+    // 3. Sistema do FAQ (Accordion) - Com ARIA e animação suave
+    const accordionItems = document.querySelectorAll('.accordion-item');
+
+    accordionItems.forEach(item => {
+        const header = item.querySelector('.accordion-header');
+        const content = item.querySelector('.accordion-content');
+
+        if (header && content) {
+            header.addEventListener('click', () => {
+                const isExpanded = header.getAttribute('aria-expanded') === 'true';
+
+                // Fecha outros itens
+                accordionItems.forEach(otherItem => {
+                    const otherHeader = otherItem.querySelector('.accordion-header');
+                    const otherContent = otherItem.querySelector('.accordion-content');
+                    if (otherHeader && otherHeader !== header) {
+                        otherHeader.setAttribute('aria-expanded', 'false');
+                        otherContent.style.maxHeight = null;
+                        otherItem.classList.remove('active');
+                    }
+                });
+
+                // Alterna o atual
+                header.setAttribute('aria-expanded', !isExpanded);
+                item.classList.toggle('active');
+
+                if (!isExpanded) {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    content.style.maxHeight = null;
+                }
+            });
+        }
     });
 
     // 4. Observador de Interseção para Animações ao Rolar (Scroll Reveal)
     const observeElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right');
+    let observer;
 
-    // Configurações do observador: dispara quando 15% do elemento estiver visível
-    const observerOptions = {
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px"
-    };
+    if (observeElements.length > 0 && 'IntersectionObserver' in window) {
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
 
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Adiciona a classe 'visible' para disparar a animação CSS
-                entry.target.classList.add('visible');
-                // Deixa de observar depois que já animou uma vez
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
+        observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
 
-    observeElements.forEach(el => {
-        observer.observe(el);
-    });
+        observeElements.forEach(el => observer.observe(el));
+    }
 
-    // 5. Integração Dinâmica com o Blog (Blogger JSONP para contornar CORS)
+    // 5. Integração Dinâmica com o Blog (Blogger JSONP)
     const blogContainer = document.getElementById('blog-posts-container');
 
-    // Função de callback global para o JSONP
     window.renderBloggerPosts = function (data) {
         if (!blogContainer) return;
 
         const posts = data.feed.entry || [];
 
         if (posts.length === 0) {
-            blogContainer.innerHTML = '<p>Nenhuma postagem encontrada no momento.</p>';
+            blogContainer.innerHTML = '<p class="text-center">Nenhuma postagem encontrada no momento.</p>';
             return;
         }
 
         let html = '';
         posts.forEach(post => {
-            const title = post.title.$t;
-            const link = post.link.find(l => l.rel === 'alternate').href;
+            try {
+                const title = post.title.$t;
+                const linkObj = post.link.find(l => l.rel === 'alternate');
+                const link = linkObj ? linkObj.href : '#';
 
-            // Tenta pegar a primeira imagem do post
-            let imageUrl = 'logo.png';
-            if (post.content && post.content.$t.includes('<img')) {
-                const match = post.content.$t.match(/src="([^"]+)"/);
-                if (match) {
-                    imageUrl = match[1];
+                let imageUrl = 'logo.png';
+                if (post.content && post.content.$t.includes('<img')) {
+                    const match = post.content.$t.match(/src="([^"]+)"/);
+                    if (match) imageUrl = match[1];
+                } else if (post.media$thumbnail) {
+                    imageUrl = post.media$thumbnail.url.replace('/s72-c/', '/s600/');
                 }
-            } else if (post.media$thumbnail) {
-                imageUrl = post.media$thumbnail.url.replace('/s72-c/', '/s600/');
+
+                const snippet = post.content 
+                    ? post.content.$t.replace(/<[^>]*>/g, '').substring(0, 100).trim() + '...' 
+                    : '';
+
+                html += `
+                    <article class="blog-card fade-in">
+                        <div class="blog-card-image">
+                            <img src="${imageUrl}" alt="${title}" loading="lazy" width="400" height="250">
+                        </div>
+                        <div class="blog-card-content">
+                            <h3>${title}</h3>
+                            <p>${snippet}</p>
+                            <a href="${link}" target="_blank" rel="noopener noreferrer" class="read-more">
+                                Leia mais <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </article>
+                `;
+            } catch (err) {
+                console.error('Erro ao processar postagem:', err);
             }
-
-            // Resumo do conteúdo
-            const snippet = post.content ? post.content.$t.replace(/<[^>]*>/g, '').substring(0, 120) + '...' : '';
-
-            html += `
-                <div class="blog-card fade-in">
-                    <div class="blog-card-image">
-                        <img src="${imageUrl}" alt="${title}" loading="lazy">
-                    </div>
-                    <div class="blog-card-content">
-                        <h3>${title}</h3>
-                        <p>${snippet}</p>
-                        <a href="${link}" target="_blank" class="read-more">Leia mais <i class="fa-solid fa-arrow-right"></i></a>
-                    </div>
-                </div>
-            `;
         });
 
         blogContainer.innerHTML = html;
 
-        // Reinicializa o observer para os novos elementos
+        // Anima os novos cards se o observer existir
         const newCards = blogContainer.querySelectorAll('.blog-card');
-        newCards.forEach(card => observer.observe(card));
+        if (observer) {
+            newCards.forEach(card => observer.observe(card));
+        }
     };
 
     function loadBloggerJSONP() {
         if (!blogContainer) return;
+        
         const script = document.createElement('script');
         script.src = 'https://pesoti.blogspot.com/feeds/posts/default?alt=json-in-script&callback=renderBloggerPosts&max-results=3';
+        script.async = true;
+        
         script.onerror = () => {
-            blogContainer.innerHTML = '<p>Não foi possível carregar as postagens. <a href="https://pesoti.blogspot.com/" target="_blank">Acesse o blog aqui.</a></p>';
+            blogContainer.innerHTML = `
+                <div class="text-center">
+                    <p>Não foi possível carregar as postagens automaticamente.</p>
+                    <a href="https://pesoti.blogspot.com/" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Ver Blog</a>
+                </div>
+            `;
         };
+        
         document.body.appendChild(script);
     }
 
-    loadBloggerJSONP();
+    // Inicialização do Blog com pequeno delay para priorizar LCP
+    setTimeout(loadBloggerJSONP, 1000);
 });
