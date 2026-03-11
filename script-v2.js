@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const link = linkObj ? linkObj.href : '#';
 
                 html += `
-                    <li class="blog-link-item fade-in">
+                    <li class="blog-link-item fade-in visible">
                         <a href="${link}" target="_blank" rel="noopener noreferrer" class="blog-link-anchor">
                             <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
                             <span class="blog-link-title">${title}</span>
@@ -155,11 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         blogContainer.innerHTML = html;
 
-        // Anima os novos itens se o observer existir
-        const newCards = blogContainer.querySelectorAll('.blog-link-item');
-        if (observer) {
-            newCards.forEach(card => observer.observe(card));
-        }
+
     };
 
     function loadBloggerJSONP() {
