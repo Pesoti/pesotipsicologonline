@@ -131,43 +131,27 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        let html = '';
+        let html = '<ul class="blog-links-list">';
         posts.forEach(post => {
             try {
                 const title = post.title.$t;
                 const linkObj = post.link.find(l => l.rel === 'alternate');
                 const link = linkObj ? linkObj.href : '#';
 
-                let imageUrl = 'logo.png';
-                if (post.content && post.content.$t.includes('<img')) {
-                    const match = post.content.$t.match(/src="([^"]+)"/);
-                    if (match) imageUrl = match[1];
-                } else if (post.media$thumbnail) {
-                    imageUrl = post.media$thumbnail.url.replace('/s72-c/', '/s600/');
-                }
-
-                const snippet = post.content 
-                    ? post.content.$t.replace(/<[^>]*>/g, '').substring(0, 100).trim() + '...' 
-                    : '';
-
                 html += `
-                    <article class="blog-card fade-in">
-                        <div class="blog-card-image">
-                            <img src="${imageUrl}" alt="${title}" loading="lazy" width="400" height="250">
-                        </div>
-                        <div class="blog-card-content">
-                            <h3>${title}</h3>
-                            <p>${snippet}</p>
-                            <a href="${link}" target="_blank" rel="noopener noreferrer" class="read-more">
-                                Leia mais <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </article>
+                    <li class="blog-link-item fade-in">
+                        <a href="${link}" target="_blank" rel="noopener noreferrer" class="blog-link-anchor">
+                            <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+                            <span class="blog-link-title">${title}</span>
+                            <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                        </a>
+                    </li>
                 `;
             } catch (err) {
                 console.error('Erro ao processar postagem:', err);
             }
         });
+        html += '</ul>';
 
         blogContainer.innerHTML = html;
 

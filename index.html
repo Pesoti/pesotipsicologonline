@@ -27,11 +27,11 @@
     <meta property="og:description" content="Psicólogo Clínico online com 15 anos de experiência em Saúde Mental e Neuropsicologia.">
     <meta property="og:image" content="https://pesotipsicologonline.com.br/hero.webp">
 
-    <!-- FontAwesome (Otimizado via CSS) -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <!-- FontAwesome 6 (CDN Estável) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <!-- CSS Principal -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-v2.css">
 </head>
 
 <body>
@@ -560,7 +560,6 @@
                 <p><i class="fa-brands fa-whatsapp highlight" aria-hidden="true"></i> (16) 98858-0999</p>
                 <div class="social-links">
                     <a href="https://www.instagram.com/pesotineuropsi" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
-                    <a href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
                 </div>
             </div>
         </div>
@@ -570,7 +569,7 @@
     </footer>
 
     <!-- Arquivo de Script -->
-    <script src="script.js" defer></script>
+    <script src="script-v2.js" defer></script>
     <!-- Immersive Mode Overlay -->
     <div id="ca-overlay" class="ca-overlay" role="dialog" aria-modal="true" aria-labelledby="ca-overlay-title">
         <div class="ca-overlay-background"></div>
@@ -838,6 +837,20 @@
         border-color: var(--ca-primary);
     }
 
+    .ca-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--ca-border);
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: border-color 0.2s;
+    }
+
+    .ca-input:focus {
+        outline: none;
+        border-color: var(--ca-primary);
+    }
+
     .ca-toggles {
         display: grid;
         grid-template-columns: 1fr;
@@ -1095,13 +1108,16 @@
             db: null,
             activeSess: null,
             wakeLock: null,
-            audioCtx: null,
+            initialized: false,
             
             init() {
+                if (this.initialized) return;
                 this.setupUI();
                 this.setupPersistence();
                 this.setupEventListeners();
                 this.syncStats();
+                this.initialized = true;
+                this.bootTime = Date.now();
             },
 
             setupUI() {
@@ -1142,8 +1158,16 @@
                 this.renderPresets();
                 // Select first preset by default
                 if (this.presets.length > 0) {
+                    const firstPreset = this.presets[0];
                     const firstItem = this.els.presetList.querySelector('.ca-preset-item');
-                    if (firstItem) firstItem.click();
+                    
+                    this.els.inInsp.value = firstPreset.in;
+                    this.els.inHold1.value = firstPreset.h1;
+                    this.els.inExp.value = firstPreset.ex;
+                    this.els.inHold2.value = firstPreset.h2;
+                    this.syncStats();
+                    
+                    if (firstItem) firstItem.classList.add('active');
                 }
             },
 
@@ -1400,7 +1424,7 @@
                 this.presets.forEach(p => {
                     const item = document.createElement('div');
                     item.className = 'ca-preset-item';
-                    item.onclick = () => {
+                    item.onclick = (e) => {
                         if (this.state !== 'idle' && this.state !== 'ended') return;
                         this.els.inInsp.value = p.in;
                         this.els.inHold1.value = p.h1;
@@ -1409,7 +1433,9 @@
                         this.syncStats();
                         this.els.presetList.querySelectorAll('.ca-preset-item').forEach(i => i.classList.remove('active'));
                         item.classList.add('active');
-                        this.showToast(`Preset ${p.name} aplicado.`);
+                        if (e && e.isTrusted) {
+                            this.showToast(`Preset ${p.name} aplicado.`);
+                        }
                     };
                     
                     const info = document.createElement('div');
@@ -1420,6 +1446,7 @@
             },
 
             showToast(msg) {
+                if (!this.initialized || (Date.now() - this.bootTime < 2000)) return;
                 const toast = document.createElement('div');
                 toast.className = 'ca-toast';
                 toast.textContent = msg;
