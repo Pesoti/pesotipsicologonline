@@ -155,8 +155,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         blogContainer.innerHTML = html;
 
-        // Anima os novos cards se o observer existir
-        const newCards = blogContainer.querySelectorAll('.blog-card');
+        // Anima os novos itens se o observer existir
+        const newCards = blogContainer.querySelectorAll('.blog-link-item');
         if (observer) {
             newCards.forEach(card => observer.observe(card));
         }
