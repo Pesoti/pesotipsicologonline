@@ -1,0 +1,21 @@
+# --- CONFIGURAÇÃO DE MANUTENÇÃO (HTTP 503) ---
+# Site: Cesar Pesoti Psicoterapia
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # 1. Defina o documento que será exibido para o erro 503
+    ErrorDocument 503 /manutencao.html
+
+    # 2. Exceções: Não redirecionar a própria página de manutenção nem arquivos estáticos (CSS, Imagens, Fonts)
+    RewriteCond %{REQUEST_URI} !^/manutencao\.html$ [NC]
+    RewriteCond %{REQUEST_URI} !\.(jpe?g?|png|gif|css|js|ico|webp|svg|woff2?|ttf)$ [NC]
+    
+    # 3. Redirecionar todo o tráfego restante retornando o código 503
+    RewriteRule ^.*$ - [R=503,L]
+</IfModule>
+
+# Sugere aos motores de busca (Google, etc) para voltarem em 24h
+<IfModule mod_headers.c>
+    Header always set Retry-After "86400"
+</IfModule>

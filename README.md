@@ -18,3 +18,12 @@ O site está hospedado e possui deploy automático configurado através do **Git
 
 ## Acesso
 🌐 URL Oficial: [pesotipsicologonline.com.br](https://pesotipsicologonline.com.br)
+
+## Modo de Manutenção (Suspensão Temporária)
+
+O site está configurado atualmente em modo de manutenção. Para **reativar** o site, siga os passos:
+
+1.  **Remover o Redirecionamento**: No arquivo `index.html`, remova o bloco `<script>` de redirecionamento que está no topo do `<head>`.
+2.  **Desativar o Servidor**: Se estiver usando um servidor Apache, remova ou comente as linhas do arquivo `.htaccess`.
+3.  **Remover arquivo 404**: Exclua ou renomeie o arquivo `404.html`.
+4.  **Limpar Cache**: Após o deploy, pode ser necessário limpar o cache do navegador para ver as mudanças.
